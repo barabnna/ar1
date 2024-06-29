@@ -26,58 +26,21 @@
     <!-- Список лекций -->
     <ul class="lecture-list"></ul>
     
-    <!-- Расширенная форма для добавления новой лекции -->
-    <form id="addLectureForm">
-        <input type="text" id="newLectureTitle" placeholder="Название лекции">
-        <textarea id="newLectureContent" placeholder="Материал лекции"></textarea>
-        <button type="submit">Добавить лекцию</button>
-    </form>
-    
-    <!-- Форма для редактирования существующей лекции -->
-    <form id="editLectureForm" style="display:none;">
-        <input type="hidden" id="lectureIdToEdit">
-        <input type="text" id="editedLectureTitle" placeholder="Измененное название лекции">
-        <textarea id="editedLectureContent" placeholder="Измененный материал лекции"></textarea>
-        <button type="submit">Сохранить изменения</button>
-    </form>
-    
-    <!-- Форма для удаления лекции -->
-    <form id="deleteLectureForm" style="display:none;">
-        <input type="hidden" id="lectureIdToDelete">
-        <button type="submit">Удалить лекцию</button>
-    </form>
-</div>
 <form id="addLectureForm" action="add_lecture.php" method="post">
     <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
     <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
     <button type="submit">Добавить лекцию</button>
 </form>
-<?php
-// Подключение к базе данных
-$servername = "localhost";
-$username = "username";
-$password = "password";
-$dbname = "mybd";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: ". $conn->connect_error);
-}
-
-$sql = "SELECT * FROM lecture";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "id: ". $row["id_lecture"]. " - Title: ". $row["title_lecture"]. " - Content: ". $row["text_lecture"]. "<br>";
-    }
-} else {
-    echo "0 results";
-}
-$conn->close();
-?>
+    <form id="editLectureForm" action="update_lecture.php" method="post">
+    <input type="hidden" id="lectureIdToEdit" name="lecture_id">
+    <input type="text" id="editedLectureTitle" name="lecture_title" placeholder="Измененное название лекции">
+    <textarea id="editedLectureContent" name="lecture_content" placeholder="Измененный материал лекции"></textarea>
+    <button type="submit">Сохранить изменения</button>
+</form>
+    <form id="deleteLectureForm" action="delete_lecture.php" method="post">
+    <input type="hidden" id="lectureIdToDelete" name="lecture_id">
+    <button type="submit">Удалить лекцию</button>
+</form>
 
 </body>
 </html>
