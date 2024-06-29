@@ -25,22 +25,66 @@
     <p>Выберите лекцию из списка ниже:</p>
     <!-- Список лекций -->
     <ul class="lecture-list"></ul>
+   
     
-<form id="addLectureForm" action="add_lecture.php" method="post">
-    <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
-    <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
-    <button type="submit">Добавить лекцию</button>
-</form>
-    <form id="editLectureForm" action="update_lecture.php" method="post">
-    <input type="hidden" id="lectureIdToEdit" name="lecture_id">
-    <input type="text" id="editedLectureTitle" name="lecture_title" placeholder="Измененное название лекции">
-    <textarea id="editedLectureContent" name="lecture_content" placeholder="Измененный материал лекции"></textarea>
-    <button type="submit">Сохранить изменения</button>
-</form>
-    <form id="deleteLectureForm" action="delete_lecture.php" method="post">
-    <input type="hidden" id="lectureIdToDelete" name="lecture_id">
-    <button type="submit">Удалить лекцию</button>
-</form>
+    
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Загрузка списка лекций при загрузке страницы
+    loadLectures();
+
+    // Обработчик добавления лекции
+    document.getElementById('addLectureForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Предотвращаем стандартное поведение формы
+        addLecture();
+    });
+
+    // Функция для добавления лекции
+    function addLecture() {
+        const title = document.getElementById('newLectureTitle').value;
+        const content = document.getElementById('newLectureContent').value;
+
+        // Отправляем данные на сервер через AJAX
+        fetch('add_lecture.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                lecture_title: title,
+                lecture_content: content
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+       .then(response => response.json())
+       .then(data => {
+            if (data.success) {
+                alert('Лекция успешно добавлена');
+                loadLectures(); // Обновляем список лекций
+            } else {
+                alert('Ошибка при добавлении лекции');
+            }
+        });
+    }
+
+    // Функция для загрузки списка лекций
+    function loadLectures() {
+        fetch('get_lectures.php')
+       .then(response => response.json())
+       .then(data => {
+            const lecturesList = document.querySelector('.lecture-list');
+            lecturesList.innerHTML = ''; // Очищаем список лекций
+            data.forEach(lecture => {
+                const li = document.createElement('li');
+                li.textContent = `${lecture.title_lecture} - ${lecture.text_lecture}`;
+                lecturesList.appendChild(li);
+            });
+        });
+    }
+
+    // Обработчики для редактирования и удаления лекций
+    // Аналогично добавлению, но с использованием других методов (PUT, DELETE)
+});
+</script>
 
 </body>
 </html>
