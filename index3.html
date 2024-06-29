@@ -25,9 +25,29 @@
     <p>Выберите лекцию из списка ниже:</p>
     <!-- Список лекций -->
     <ul class="lecture-list"></ul>
-   
 
-    
+    <!-- Форма добавления лекции -->
+    <form id="addLectureForm" action="add_lecture.php" method="post">
+        <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
+        <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
+        <button type="submit">Добавить лекцию</button>
+    </form>
+
+    <!-- Форма редактирования лекции -->
+    <form id="editLectureForm" action="update_lecture.php" method="post">
+        <input type="hidden" id="lectureIdToEdit" name="lecture_id">
+        <input type="text" id="editedLectureTitle" name="lecture_title" placeholder="Измененное название лекции">
+        <textarea id="editedLectureContent" name="lecture_content" placeholder="Измененный материал лекции"></textarea>
+        <button type="submit">Сохранить изменения</button>
+    </form>
+
+    <!-- Форма удаления лекции -->
+    <form id="deleteLectureForm" action="delete_lecture.php" method="post">
+        <input type="hidden" id="lectureIdToDelete" name="lecture_id">
+        <button type="submit">Удалить лекцию</button>
+    </form>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Загрузка списка лекций при загрузке страницы
@@ -55,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Content-Type': 'application/json'
             }
         })
-       .then(response => response.json())
-       .then(data => {
+      .then(response => response.json())
+      .then(data => {
             if (data.success) {
                 alert('Лекция успешно добавлена');
                 loadLectures(); // Обновляем список лекций
@@ -69,131 +89,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Функция для загрузки списка лекций
     function loadLectures() {
         fetch('get_lectures.php')
-       .then(response => response.json())
-       .then(data => {
+      .then(response => response.json())
+      .then(data => {
             const lecturesList = document.querySelector('.lecture-list');
             lecturesList.innerHTML = ''; // Очищаем список лекций
             data.forEach(lecture => {
                 const li = document.createElement('li');
                 li.textContent = `${lecture.title_lecture} - ${lecture.text_lecture}`;
                 lecturesList.appendChild(li);
+                // Добавляем обработчики для редактирования и удаления
+                li.addEventListener('click', function() {
+                    editOrDeleteLecture(lecture.id);
+                });
             });
         });
     }
 
-    // Обработчики для редактирования и удаления лекций
-    // Аналогично добавлению, но с использованием других методов (PUT, DELETE)
+    // Функция для редактирования или удаления лекции
+    function editOrDeleteLecture(id) {
+        // Здесь должна быть логика для выбора действия (редактирование или удаление)
+        // Например, заполнение формы редактирования данными лекции или установка ID для удаления
+    }
 });
-        <form id="addLectureForm" action="add_lecture.php" method="post">
-    <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
-    <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
-    <button type="submit">Добавить лекцию</button>
-</form>
-
-<!-- Форма редактирования лекции -->
-<form id="editLectureForm" action="update_lecture.php" method="post">
-    <input type="hidden" id="lectureIdToEdit" name="lecture_id">
-    <input type="text" id="editedLectureTitle" name="lecture_title" placeholder="Измененное название лекции">
-    <textarea id="editedLectureContent" name="lecture_content" placeholder="Измененный материал лекции"></textarea>
-    <button type="submit">Сохранить изменения</button>
-</form>
-
-<!-- Форма удаления лекции -->
-<form id="deleteLectureForm" action="delete_lecture.php" method="post">
-    <input type="hidden" id="lectureIdToDelete" name="lecture_id">
-    <button type="submit">Удалить лекцию</button>
-</form>
-    
 </script>
 
 </body>
 </html>
-
-<style>
-
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #e9ebee; 
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); 
-}
-
-.image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 40px; 
-}
-
-.menu-container {
-    background-color: #483D8B;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow-x: auto;
-    text-align: center;
-    padding: 10px 0; 
-}
-
-.menu-item {
-    display: inline-block; 
-    background-color: FFB6C1;
-    color: white; 
-    padding: 10px 20px; 
-    text-decoration: none; 
-    margin: 0 15px; 
-    border-radius: 5px; 
-}
-
-.menu-item:hover {
-    background-color: #da70d6; 
-}
-
-.welcome-info,
-.lecture-container {
-    text-align: center; 
-    padding-top: 30px; 
-}
-
-h1, h2 {
-    color: #333; 
-    font-size: 24px;
-}
-
-.lecture-container {
-    text-align: center; 
-    padding-top: 30px;
-}
-
-#addLectureForm {
-    display: grid; 
-    gap: 10px; 
-    max-width: 600px; 
-    margin: 0 auto; 
-    padding: 20px; 
-    background-color: #ffffff; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-    border-radius: 5px; 
-}
-
-#addLectureForm input[type="text"],
-#addLectureForm textarea {
-    width: 100%; 
-    padding: 10px; 
-    border: 1px solid #ccc; 
-    border-radius: 5px; 
-}
-
-#addLectureForm button {
-    background-color: #007bff; 
-    color: white; 
-    padding: 10px 20px; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-}
-
-#addLectureForm button:hover {
-    background-color: #0056b3; 
-}
-</style>
