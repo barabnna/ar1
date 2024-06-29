@@ -26,25 +26,7 @@
     <!-- Список лекций -->
     <ul class="lecture-list"></ul>
    
-    <form id="addLectureForm" action="add_lecture.php" method="post">
-    <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
-    <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
-    <button type="submit">Добавить лекцию</button>
-</form>
 
-<!-- Форма редактирования лекции -->
-<form id="editLectureForm" action="update_lecture.php" method="post">
-    <input type="hidden" id="lectureIdToEdit" name="lecture_id">
-    <input type="text" id="editedLectureTitle" name="lecture_title" placeholder="Измененное название лекции">
-    <textarea id="editedLectureContent" name="lecture_content" placeholder="Измененный материал лекции"></textarea>
-    <button type="submit">Сохранить изменения</button>
-</form>
-
-<!-- Форма удаления лекции -->
-<form id="deleteLectureForm" action="delete_lecture.php" method="post">
-    <input type="hidden" id="lectureIdToDelete" name="lecture_id">
-    <button type="submit">Удалить лекцию</button>
-</form>
     
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -102,6 +84,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обработчики для редактирования и удаления лекций
     // Аналогично добавлению, но с использованием других методов (PUT, DELETE)
 });
+        <form id="addLectureForm" action="add_lecture.php" method="post">
+    <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
+    <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
+    <button type="submit">Добавить лекцию</button>
+</form>
+
+<!-- Форма редактирования лекции -->
+<form id="editLectureForm" action="update_lecture.php" method="post">
+    <input type="hidden" id="lectureIdToEdit" name="lecture_id">
+    <input type="text" id="editedLectureTitle" name="lecture_title" placeholder="Измененное название лекции">
+    <textarea id="editedLectureContent" name="lecture_content" placeholder="Измененный материал лекции"></textarea>
+    <button type="submit">Сохранить изменения</button>
+</form>
+
+<!-- Форма удаления лекции -->
+<form id="deleteLectureForm" action="delete_lecture.php" method="post">
+    <input type="hidden" id="lectureIdToDelete" name="lecture_id">
+    <button type="submit">Удалить лекцию</button>
+</form>
+    
 </script>
 
 </body>
