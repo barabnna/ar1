@@ -61,23 +61,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Функция для добавления лекции
     function addLecture() {
-        const title = document.getElementById('newLectureTitle').value;
-        const content = document.getElementById('newLectureContent').value;
+        const form = document.getElementById('addLectureForm');
+        const formData = new FormData(form);
 
-        // Отправляем данные на сервер через AJAX
         fetch('add_lecture.php', {
             method: 'POST',
-            body: JSON.stringify({
-                lecture_title: title,
-                lecture_content: content
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: formData
         })
-      .then(response => response.json())
-      .then(data => {
-            if (data.success) {
+     .then(response => response.text()) // Изменено с.json() на.text(), так как ответ не в формате JSON
+     .then(data => {
+            if (data.trim() === "success") { // Предполагается, что сервер возвращает "success", если всё прошло успешно
                 alert('Лекция успешно добавлена');
                 loadLectures(); // Обновляем список лекций
             } else {
@@ -86,31 +79,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Функция для загрузки списка лекций
-    function loadLectures() {
-        fetch('get_lectures.php')
-      .then(response => response.json())
-      .then(data => {
-            const lecturesList = document.querySelector('.lecture-list');
-            lecturesList.innerHTML = ''; // Очищаем список лекций
-            data.forEach(lecture => {
-                const li = document.createElement('li');
-                li.textContent = `${lecture.title_lecture} - ${lecture.text_lecture}`;
-                lecturesList.appendChild(li);
-                // Добавляем обработчики для редактирования и удаления
-                li.addEventListener('click', function() {
-                    editOrDeleteLecture(lecture.id);
-                });
-            });
-        });
-    }
-
-    // Функция для редактирования или удаления лекции
-    function editOrDeleteLecture(id) {
-        // Здесь должна быть логика для выбора действия (редактирование или удаление)
-        // Например, заполнение формы редактирования данными лекции или установка ID для удаления
-    }
+    // Остальная часть вашего JavaScript-кода...
 });
+
 </script>
 
 </body>
