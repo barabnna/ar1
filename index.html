@@ -36,7 +36,8 @@
 document.getElementById('login-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Предотвращаем стандартное поведение формы
 
-    const role = document.getElementById('role-select').value;
+    const roleSelect = document.getElementById('role-select');
+    const role = roleSelect.value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
@@ -44,14 +45,16 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     // Например, сравнить email и пароль с заранее заданными значениями для каждого типа пользователя
 
     let url;
-    if (option value === "Преподаватель") {
-        <a href="index2.html">* </a>; // URL страницы для преподавателей
-
-    } else if (option value === "Ученик") {
-        <a href="index7.html">*</a>; // URL страницы для учеников
+    if (role === "Преподаватель") {
+        url = "index2.html"; // URL страницы для преподавателей
+    } else if (role === "Ученик") {
+        url = "index7.html"; // URL страницы для учеников
     } 
 
-);
+    if (url) {
+        window.location.href = url; // Перенаправляем пользователя на выбранную страницу
+    }
+});
 </script>
 
 </body>
