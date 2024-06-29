@@ -47,7 +47,11 @@
         <button type="submit">Удалить лекцию</button>
     </form>
 </div>
-
+<form id="addLectureForm" action="add_lecture.php" method="post">
+    <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
+    <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
+    <button type="submit">Добавить лекцию</button>
+</form>
 <?php
 // Подключение к базе данных
 $servername = "localhost";
