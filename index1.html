@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title> Архитектурная Акустика</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="image-container">
+    <img src="https://upload.wikimedia.org/wikipedia/ru/0/08/%D0%94%D0%92%D0%A4%D0%A3_%D0%BB%D0%BE%D0%B3%D0%BE.jpg" width="170" height="110">
+</div>
+
+<div class="welcome-info">
+    <h1>Обучающий курс по Архитектурной Акустике</h1>
+    <h2>Выберите роль:</h2>
+    <div class="select-container">
+        <select id="role-select">
+            <option value="Преподаватель">Преподаватель</option>
+            <option value="Ученик">Ученик</option>
+        </select>
+    </div>
+</div>
+
+<div class="container">
+    <form id="login-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit" class="button">Войти</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Предотвращаем стандартное поведение формы
+
+    const role = document.getElementById('role-select').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Здесь вы можете добавить логику проверки введенных данных
+    // Например, сравнить email и пароль с заранее заданными значениями для каждого типа пользователя
+
+    let url;
+    if (role === "Преподаватель") {
+        url = "@"; // URL страницы для преподавателей
+    } else if (role === "Ученик") {
+        url = "ученик.html"; // URL страницы для учеников
+    } else {
+        alert("Неизвестная роль");
+        return; // Выходим из функции, если роль неизвестна
+    }
+
+    window.location.href = url; // Перенаправляем пользователя на выбранную страницу
+});
+</script>
+
+</body>
+</html>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #f0f0f0, #e9ebee);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+      .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            max-width: 800px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+            width: 100%;
+        }
+
+      .welcome-info,
+      .course-info {
+            margin-bottom: 20px;
+        }
+
+      .select-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+      .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #FF69B4;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 25px;
+            transition: background 0.3s ease;
+        }
+
+      .button:hover {
+            background: #C71585;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        form input[type="email"],
+        form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        form button {
+            margin-top: 10px;
+        }
+    </style>
