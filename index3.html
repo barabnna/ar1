@@ -7,46 +7,7 @@
 </head>
 <body>
 
-<div class="image-container">
-    <img src="https://upload.wikimedia.org/wikipedia/ru/0/08/%D0%94%D0%92%D0%A4%D0%A3_%D0%BB%D0%BE%D0%B3%D0%BE.jpg" width="170" height="110">
-</div>
-
-<div class="menu-container">
-    <a href="index2.html" class="menu-item">Главная</a>
-    <a href="index3.html" class="menu-item">Лекции</a>
-    <a href="#" class="menu-item">Практические задания</a>
-    <a href="#" class="menu-item">Тесты</a>
-    <a href="#" class="menu-item">Контрольные задания</a>
-    <a href="index.html" class="menu-item">Выход</a>
-</div>
-
-<div class="lecture-container">
-    <h2>Лекции</h2>
-    <p>Выберите лекцию из списка ниже:</p>
-    <!-- Список лекций -->
-    <ul class="lecture-list"></ul>
-
-    <!-- Форма добавления лекции -->
-    <form id="addLectureForm" action="add_lecture.php" method="post">
-        <input type="text" id="newLectureTitle" name="lecture_title" placeholder="Название лекции">
-        <textarea id="newLectureContent" name="lecture_content" placeholder="Материал лекции"></textarea>
-        <button type="submit">Добавить лекцию</button>
-    </form>
-
-    <!-- Форма редактирования лекции -->
-    <form id="editLectureForm" action="update_lecture.php" method="post">
-        <input type="hidden" id="lectureIdToEdit" name="lecture_id">
-        <input type="text" id="editedLectureTitle" name="lecture_title" placeholder="Измененное название лекции">
-        <textarea id="editedLectureContent" name="lecture_content" placeholder="Измененный материал лекции"></textarea>
-        <button type="submit">Сохранить изменения</button>
-    </form>
-
-    <!-- Форма удаления лекции -->
-    <form id="deleteLectureForm" action="delete_lecture.php" method="post">
-        <input type="hidden" id="lectureIdToDelete" name="lecture_id">
-        <button type="submit">Удалить лекцию</button>
-    </form>
-</div>
+<!-- Ваш HTML код -->
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -60,23 +21,31 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Функция для добавления лекции
-    function addLecture() {
-        const form = document.getElementById('addLectureForm');
-        const formData = new FormData(form);
+    async function addLecture() {
+        try {
+            const form = document.getElementById('addLectureForm');
+            const formData = new FormData(form);
 
-        fetch('add_lecture.php', {
-            method: 'POST',
-            body: formData
-        })
-     .then(response => response.text()) // Изменено с.json() на.text(), так как ответ не в формате JSON
-     .then(data => {
-            if (data.trim() === "success") { // Предполагается, что сервер возвращает "success", если всё прошло успешно
+            const response = await fetch('add_lecture.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error status: ${response.status}`);
+            }
+
+            const data = await response.text();
+            if (data.trim() === "success") {
                 alert('Лекция успешно добавлена');
                 loadLectures(); // Обновляем список лекций
             } else {
                 alert('Ошибка при добавлении лекции');
             }
-        });
+        } catch (error) {
+            console.error('Ошибка:', error);
+            alert('Произошла ошибка при добавлении лекции');
+        }
     }
 
     // Остальная часть вашего JavaScript-кода...
