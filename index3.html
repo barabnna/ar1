@@ -48,84 +48,32 @@
     </form>
 </div>
 
-<script>
-let lectures = [
-    {id: 1, title: "Тема 1", content: "Здесь будет содержимое лекции."},
-    {id: 2, title: "Тема 2", content: "Здесь будет содержимое лекции."},
-    {id: 3, title: "Тема 3", content: "Здесь будет содержимое лекции."},
-    {id: 4, title: "Тема 4", content: "Здесь будет содержимое лекции."},
-    {id: 5, title: "Тема 5", content: "Здесь будет содержимое лекции."},
-    {id: 6, title: "Тема 6", content: "Здесь будет содержимое лекции."}
-];
+<?php
+// Подключение к базе данных
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "mybd";
 
-function renderLectures() {
-    const lectureList = document.querySelector('.lecture-list');
-    lectureList.innerHTML = ''; // Очистка списка
-    lectures.forEach(lecture => {
-        const li = document.createElement('li');
-        const link = document.createElement('a');
-        link.href = '#';
-        link.textContent = lecture.title;
-        li.appendChild(link);
-        li.addEventListener('click', () => selectLecture(lecture.id));
-        lectureList.appendChild(li);
-    });
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: ". $conn->connect_error);
 }
 
-function selectLecture(id) {
-    const editForm = document.getElementById('editLectureForm');
-    const deleteForm = document.getElementById('deleteLectureForm');
-    const lectureIdToEdit = document.getElementById('lectureIdToEdit');
-    const lectureIdToDelete = document.getElementById('lectureIdToDelete');
+$sql = "SELECT * FROM lecture";
+$result = $conn->query($sql);
 
-    lectures.forEach(lecture => {
-        if (lecture.id === id) {
-            editForm.style.display = 'block';
-            deleteForm.style.display = 'block';
-            lectureIdToEdit.value = id;
-            lectureIdToDelete.value = id;
-            return;
-        }
-    });
-
-    editForm.querySelector('#editedLectureTitle').value = lectures.find(l => l.id === id).title;
-    editForm.querySelector('#editedLectureContent').value = lectures.find(l => l.id === id).content;
-}
-
-document.getElementById('addLectureForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const newLectureTitle = document.getElementById('newLectureTitle').value.trim();
-    const newLectureContent = document.getElementById('newLectureContent').value.trim();
-    if (newLectureTitle && newLectureContent) {
-        lectures.push({id: Date.now(), title: newLectureTitle, content: newLectureContent});
-        renderLectures();
-        document.getElementById('newLectureTitle').value = '';
-        document.getElementById('newLectureContent').value = '';
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "id: ". $row["id_lecture"]. " - Title: ". $row["title_lecture"]. " - Content: ". $row["text_lecture"]. "<br>";
     }
-});
-
-document.getElementById('editLectureForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const editedLectureTitle = document.getElementById('editedLectureTitle').value.trim();
-    const editedLectureContent = document.getElementById('editedLectureContent').value.trim();
-    const lectureIdToEdit = document.getElementById('lectureIdToEdit').value;
-    lectures = lectures.map(lecture => lecture.id === Number(lectureIdToEdit)? {...lecture, title: editedLectureTitle, content: editedLectureContent} : lecture);
-    renderLectures();
-    document.getElementById('editLectureForm').style.display = 'none';
-    document.getElementById('deleteLectureForm').style.display = 'none';
-});
-
-document.getElementById('deleteLectureForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const lectureIdToDelete = document.getElementById('lectureIdToDelete').value;
-    lectures = lectures.filter(lecture => lecture.id!== Number(lectureIdToDelete));
-    renderLectures();
-    document.getElementById('editLectureForm').style.display = 'none';
-    document.getElementById('deleteLectureForm').style.display = 'none';
-});
-
-renderLectures();
-</script>
+} else {
+    echo "0 results";
+}
+$conn->close();
+?>
 
 </body>
 </html>
