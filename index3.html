@@ -125,42 +125,97 @@ document.getElementById('deleteLectureForm').addEventListener('submit', function
 });
 
 renderLectures();
-
-
-var firebaseConfig = {
-  apiKey: "ВАШ_API_KEY",
-  authDomain: "ВАШ_AUTH_DOMAIN",
-  projectId: "ВАШ_PROJECT_ID",
-  storageBucket: "ВАШ_STORAGE_BUCKET",
-  messagingSenderId: "ВАШ_MESSAGING_SENDER_ID",
-  appId: "ВАШ_APP_ID"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-// Получение ссылки на Firestore
-var db = firebase.firestore(https://datab-5c2cf-default-rtdb.firebaseio.com/);
-
-// Функция для добавления лекции в Firestore
-function addLecture(title, content) {
-  var lecturesRef = db.collection('lectures');
-  lecturesRef.add({
-    title_lecture: title,
-    text_lecture: content
-  }).then(function(docRef) {
-    console.log("Document written with ID: ", docRef.id);
-  })
-.catch(function(error) {
-    console.error("Error adding document: ", error);
-  });
-}
-
-// Пример использования функции addLecture
-addLecture("Тема 1", "Здесь будет содержимое лекции.");
-
-    
 </script>
 
 </body>
 </html>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #e9ebee; 
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px; 
+}
+
+.menu-container {
+    background-color: #483D8B;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow-x: auto;
+    text-align: center;
+    padding: 10px 0; 
+}
+
+.menu-item {
+    display: inline-block; 
+    background-color: FFB6C1;
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    margin: 0 15px; 
+    border-radius: 5px; 
+}
+
+.menu-item:hover {
+    background-color: #da70d6; 
+}
+
+.welcome-info,
+.lecture-container {
+    text-align: center; 
+    padding-top: 30px; 
+}
+
+h1, h2 {
+    color: #333; 
+    font-size: 24px;
+}
+
+.lecture-container {
+    text-align: center; 
+    padding-top: 30px;
+}
+
+#addLectureForm {
+    display: grid; 
+    gap: 10px; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    padding: 20px; 
+    background-color: #ffffff; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+    border-radius: 5px; 
+}
+
+#addLectureForm input[type="text"],
+#addLectureForm textarea {
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+}
+
+#addLectureForm button {
+    background-color: #007bff; 
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+#addLectureForm button:hover {
+    background-color: #0056b3; 
+}
+</style>
 
