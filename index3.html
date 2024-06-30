@@ -49,6 +49,7 @@
 </div>
 
 <script>
+    let lectures = JSON.parse(localStorage.getItem('lectures')) || [];
 let lectures = [
     {id: 1, title: "Тема 1", content: "Здесь будет содержимое лекции."},
     {id: 2, title: "Тема 2", content: "Здесь будет содержимое лекции."},
@@ -70,7 +71,13 @@ function renderLectures() {
         li.addEventListener('click', () => selectLecture(lecture.id));
         lectureList.appendChild(li);
     });
+    localStorage.setItem('lectures', JSON.stringify(lectures)); // Сохранение в localStorage
 }
+    
+    
+    
+    
+
 
 function selectLecture(id) {
     const editForm = document.getElementById('editLectureForm');
@@ -92,6 +99,8 @@ function selectLecture(id) {
     editForm.querySelector('#editedLectureContent').value = lectures.find(l => l.id === id).content;
 }
 
+
+
 document.getElementById('addLectureForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const newLectureTitle = document.getElementById('newLectureTitle').value.trim();
@@ -102,7 +111,11 @@ document.getElementById('addLectureForm').addEventListener('submit', function(ev
         document.getElementById('newLectureTitle').value = '';
         document.getElementById('newLectureContent').value = '';
     }
+    localStorage.setItem('lectures', JSON.stringify(lectures)); // Сохранение в localStorage
 });
+
+
+
 
 document.getElementById('editLectureForm').addEventListener('submit', function(event) {
     event.preventDefault();
